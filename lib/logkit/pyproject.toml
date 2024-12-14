@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "logkit"
+version = "1.0.0"
+description = "Logging toolkit"
+authors = ["dedkuzmich"]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+better-exceptions = "0.3.3"
+colorama = "0.4.6"
+loguru = "0.7.2"
+setuptools = "75.2.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

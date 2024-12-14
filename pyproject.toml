@@ -1,0 +1,33 @@
+[tool.poetry]
+package-mode = false
+name = "dnspooq"
+version = "1.0.0"
+description = "DNSpooq exploit + vulnerable environment"
+authors = ["dedkuzmich"]
+repository = "https://github.com/dedkuzmich/dnspooq"
+readme = "README.md"
+license = "MIT"
+keywords = ["dns", "cache", "poisoning", "dnsmasq", "exploit"]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+dpkt = "1.9.8"
+logkit = { path = "lib/logkit" }
+psutil = "6.1.0"
+scapy = "2.5.0"
+setuptools = "75.2.0"
+
+[tool.poetry.group.attacker.dependencies]
+dnspython = "2.7.0"
+getmac = "0.9.5"
+pwntools = "4.13.1"
+
+[tool.poetry.group.sniffer.dependencies]
+requests = "2.32.3"
+
+[tool.poetry.group.dev.dependencies]
+black = "24.10.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

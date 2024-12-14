@@ -1,0 +1,59 @@
+# version: "3.9"
+x-common: &common
+  cap_add:
+    - NET_ADMIN
+  environment:
+    - DEBIAN_FRONTEND=noninteractive    # Make commands non-interactive
+    - DEBCONF_NONINTERACTIVE_SEEN=true  # Make commands non-interactive
+    - PYTHONUNBUFFERED=1  # Disable python output bufferization
+
+
+services:
+  # FORWARDER
+  forwarder:
+    <<: *common
+    build:
+      context: .
+      dockerfile: service/forwarder/Dockerfile
+      args:
+        DNSMASQ_VERSION: 2.82
+        PORT: 53
+    networks:
+      dns_net:
+        ipv4_address: 10.0.0.2
+    ports:
+      - 8053:53/tcp
+      - 8053:53/udp
+
+  # SNIFFER
+  sniffer:
+    <<: *common
+    build:
+      context: .
+      dockerfile: service/sniffer/Dockerfile
+      args:
+        PYTHON_VERSION: 3.12
+        POETRY_VERSION: 1.8.3
+    networks:
+      dns_net:
+        ipv4_address: 10.0.0.3
+
+  # ATTACKER
+  attacker:
+    <<: *common
+    build:
+      context: .
+      dockerfile: ./service/attacker/Dockerfile
+      args:
+        PYTHON_VERSION: 3.12
+        POETRY_VERSION: 1.8.3
+    networks:
+      dns_net:
+        ipv4_address: 10.0.0.4
+
+networks:
+  dns_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.0.0/24
